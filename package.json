@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "lint": "npx eslint --ext .js --fix src/"
+  },
+  "devDependencies": {
+    "@pbs/eslint-config-pbs-kids": "^1.0.2",
+    "eslint": "^7.9.0"
+  },
+  "dependencies": {
+    "apollo-server": "^2.17.0",
+    "graphql": "^15.3.0"
+  }
+}
