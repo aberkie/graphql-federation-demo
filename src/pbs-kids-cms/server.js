@@ -40,41 +40,41 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    game: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElement(args.id);
+    game: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElement(args.id, info);
     },
-    games: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElementsInSection('games', args);
+    games: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElementsInSection('games', args, info);
     },
-    show: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElement(args.id);
+    show: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElement(args.id, info);
     },
-    shows: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElementsInSection('pbsKidsShows', args);
+    shows: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElementsInSection('pbsKidsShows', args, info);
     },
-    video: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElement(args.id);
+    video: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElement(args.id, info);
     },
-    videos: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElementsInSection('videos', args);
+    videos: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElementsInSection('videos', args, info);
     },
   },
   Game: {
-    mezzanine: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElements(obj.mezzanine, 'Asset');
+    mezzanine: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElements(obj.mezzanine, 'Asset', info);
     },
-    shows: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElements(obj.shows, 'Entry');
+    shows: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElements(obj.shows, 'Entry', info);
     },
   },
   PbsKidsVideo: {
-    shows: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElements(obj.shows, 'Entry');
+    shows: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElements(obj.shows, 'Entry', info);
     },
   },
   Show: {
-    mezzanine: async (obj, args, context) => {
-      return context.dataSources.pbsKidsCms.getElements(obj.mezzanine, 'Asset');
+    mezzanine: async (obj, args, context, info) => {
+      return context.dataSources.pbsKidsCms.getElements(obj.mezzanine, 'Asset', info);
     },
   },
 };
