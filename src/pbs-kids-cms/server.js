@@ -18,6 +18,7 @@ const typeDefs = gql`
 
     type Show {
         id: ID!
+        mediaManagerGuid: ID
         mezzanine: [Asset]
         title: String
     }
