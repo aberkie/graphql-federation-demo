@@ -1,9 +1,10 @@
 require('dotenv').config();
 const { ApolloServer, gql } = require('apollo-server');
+const { buildFederatedSchema } = require('@apollo/federation');
 const { MediaManager } = require('./datasource');
 
 const typeDefs = gql`
-    type MediaManagerAsset {
+    type MediaManagerAsset @key(fields: "id") {
       description_long: String
       description_short: String
       id: ID!
@@ -56,8 +57,7 @@ const server = new ApolloServer(
         mediaManager: new MediaManager(),
       };
     },
-    typeDefs,
-    resolvers,
+    schema: buildFederatedSchema([ { typeDefs, resolvers } ]),
   });
 
 server.listen(4001).then(({ url }) => {
