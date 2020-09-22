@@ -18,6 +18,11 @@ const typeDefs = gql`
       slug: String
     }
 
+    extend type Show @key(fields: "mediaManagerGuid") {
+      mediaManagerGuid: ID @external
+      mediaManagerShow: MediaManagerShow
+    }
+
     type Query {
       mediaManagerAsset(id: ID!): MediaManagerAsset
       mediaManagerShow(id: ID!): MediaManagerShow
@@ -44,6 +49,11 @@ const resolvers = {
     description_long: (obj) => obj.attributes.description_long,
     description_short: (obj) => obj.attributes.description_short,
     slug: (obj) => obj.attributes.slug,
+  },
+  Show: {
+    mediaManagerShow: async (show, args, context) => {
+      return context.dataSources.mediaManager.getShow(show.mediaManagerGuid);
+    },
   },
 };
 

@@ -16,7 +16,7 @@ const typeDefs = gql`
         title: String
     }
 
-    type Show {
+    type Show @key(fields: "id") @key(fields: "mediaManagerGuid"){
         id: ID!
         mediaManagerGuid: ID
         mezzanine: [Asset]
