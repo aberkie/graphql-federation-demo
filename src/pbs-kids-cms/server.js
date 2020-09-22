@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
+const { buildFederatedSchema } = require('@apollo/federation');
 const { PbsKidsCms } = require('./datasource');
 
 const typeDefs = gql`
@@ -26,6 +27,11 @@ const typeDefs = gql`
         guid: String
         shows: [Show]
         title: String
+        mediaManagerAsset: MediaManagerAsset
+    }
+
+    extend type MediaManagerAsset @key(fields:"id"){
+      id: ID! @external
     }
 
     type Query {
@@ -71,6 +77,9 @@ const resolvers = {
     shows: async (obj, args, context, info) => {
       return context.dataSources.pbsKidsCms.getElements(obj.shows, 'Entry', info);
     },
+    mediaManagerAsset(pbsKidsVideo) {
+      return { __typeName: 'MediaManagerAsset', id: pbsKidsVideo.guid };
+    },
   },
   Show: {
     mezzanine: async (obj, args, context, info) => {
@@ -81,8 +90,7 @@ const resolvers = {
 
 const server = new ApolloServer(
   {
-    typeDefs,
-    resolvers,
+    schema: buildFederatedSchema([ { typeDefs, resolvers } ]),
     dataSources: () => {
       return {
         pbsKidsCms: new PbsKidsCms(),
