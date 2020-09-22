@@ -15,8 +15,13 @@ class MediaManager extends RESTDataSource {
 
   async get(path, params = {}) {
     console.log('Media Manager', { path }, { params });
-    const result = await super.get(path, params);
-    return result.data;
+    try {
+      const result = await super.get(path, params);
+      return result.data;
+    } catch (err) {
+      // Do nothing with error for demo
+      return null;
+    }
   }
 
   get baseURL() {

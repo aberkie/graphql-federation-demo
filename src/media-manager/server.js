@@ -35,6 +35,9 @@ const resolvers = {
     description_long: (obj) => obj.attributes.description_long,
     description_short: (obj) => obj.attributes.description_short,
     slug: (obj) => obj.attributes.slug,
+    __resolveReference(asset, context) {
+      return context.dataSources.mediaManager.getAsset(asset.id);
+    },
 
   },
   MediaManagerShow: {
