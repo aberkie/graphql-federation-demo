@@ -1,4 +1,5 @@
-const { gql } = require('apollo-server');
+const { ApolloServer, gql } = require('apollo-server');
+const { PbsKidsCms } = require('./datasource');
 
 const typeDefs = gql`
     type Asset {
@@ -36,3 +37,59 @@ const typeDefs = gql`
         videos(id: [ID!], page: Int, per_page: Int): [PbsKidsVideo]
     }
 `;
+
+const resolvers = {
+  Query: {
+    game: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElement(args.id);
+    },
+    games: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElementsInSection('games', args);
+    },
+    show: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElement(args.id);
+    },
+    shows: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElementsInSection('pbsKidsShows', args);
+    },
+    video: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElement(args.id);
+    },
+    videos: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElementsInSection('videos', args);
+    },
+  },
+  Game: {
+    mezzanine: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElements(obj.mezzanine, 'Asset');
+    },
+    shows: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElements(obj.shows, 'Entry');
+    },
+  },
+  PbsKidsVideo: {
+    shows: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElements(obj.shows, 'Entry');
+    },
+  },
+  Show: {
+    mezzanine: async (obj, args, context) => {
+      return context.dataSources.pbsKidsCms.getElements(obj.mezzanine, 'Asset');
+    },
+  },
+};
+
+const server = new ApolloServer(
+  {
+    typeDefs,
+    resolvers,
+    dataSources: () => {
+      return {
+        pbsKidsCms: new PbsKidsCms(),
+      };
+    },
+  });
+
+server.listen(4000).then(({ url }) => {
+  console.log(`🚀 PBS KIDS CMS ready at ${url}`);
+});
