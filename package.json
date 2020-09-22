@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node ./src/pbs-kids-cms/server.js & node ./src/media-manager/server.js",
+    "start": "node ./src/pbs-kids-cms/server.js & node ./src/media-manager/server.js & node ./src/gateway/server.js",
     "lint": "npx eslint --ext .js --fix src/"
   },
   "devDependencies": {
